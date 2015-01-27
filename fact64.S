@@ -1,0 +1,142 @@
+	.intel_syntax noprefix
+	.section .rodata
+.hello:
+	.string "Hello"
+.world:
+	.string "World!\n"
+.show_i:
+	.string "show_i: %i\n"
+.yougave:
+	.string "You gave %i argument(s), the first: '%s'\n"
+.write_error:
+	.string "error on write"
+.factis:
+	.string "fact(%u)=%u\n"
+.overflow:
+	.string "arithmetic overflow"
+	.text
+	.globl main
+.fact_iter:
+	# fact_iter(A=n,B=total)
+	cmp rax, 0
+	jbe G3_else
+	# imul is 32-bit only, even with 64-bit arguments!
+	imul rbx, rax
+	jc G5_then
+	dec rax
+	jmp .fact_iter
+	jmp G6_cont
+G5_then:
+	mov rdi, OFFSET FLAT:.overflow
+	jmp error
+G6_cont:
+	jmp G4_cont
+G3_else:
+	mov rax, rbx
+	ret
+G4_cont:
+fact:
+	# fact(n)
+	mov rax, rdi
+	mov rbx, 1
+	jmp .fact_iter
+main:
+	# Save program arguments: argc, argv
+	mov [rsp-8], rdi
+	mov [rsp-16], rsi
+	# Output strings in various ways, using an invoke macro that
+	#  works on Linux both on x86 and x86-64
+	mov rdi, OFFSET FLAT:.hello
+	# (update SP to reflect values saved to the red area)
+	sub rsp, 16
+	call strlen
+	add rsp, 16
+	mov rdi, 1
+	mov rsi, OFFSET FLAT:.hello
+	mov rdx, rax
+	# (update SP to reflect values saved to the red area)
+	sub rsp, 16
+	call write
+	add rsp, 16
+	# Check for errors
+	cmp rax, 0
+	jae G2_cont
+	mov rdi, OFFSET FLAT:.write_error
+	# (update SP to reflect values saved to the red area)
+	sub rsp, 16
+	call perror
+	add rsp, 16
+	mov rax, 1
+	ret
+G2_cont:
+	# Omit error checking now
+	mov rdi, 32
+	# (update SP to reflect values saved to the red area)
+	sub rsp, 16
+	call putchar
+	add rsp, 16
+	mov rdi, OFFSET FLAT:.world
+	# (update SP to reflect values saved to the red area)
+	sub rsp, 16
+	call puts
+	add rsp, 16
+	# Use the program arguments
+	mov rcx, [rsp-8]
+	mov rdx, [rsp-16]
+	# exclude program name from number of arguments
+	dec rcx
+	# abi-0.99.pdf page 20: %al is used as hidden argument to specify
+	# the number of vector registers used
+	mov al, 0
+	mov rdi, OFFSET FLAT:.yougave
+	mov rsi, rcx
+	mov rdx, [rdx+8]
+	# (update SP to reflect values saved to the red area)
+	sub rsp, 16
+	call printf
+	add rsp, 16
+	mov rcx, [rsp-8]
+	cmp rcx, 1
+	jbe G1_cont
+	mov rdx, [rsp-16]
+	mov rdi, [rdx+8]
+	# (update SP to reflect values saved to the red area)
+	sub rsp, 16
+	call atol
+	add rsp, 16
+	push rax
+	mov rbx, rax
+	mov al, 0
+	mov rdi, OFFSET FLAT:.show_i
+	mov rsi, rbx
+	# (update SP to reflect values saved to the red area)
+	sub rsp, 16
+	call printf
+	add rsp, 16
+	# C=n
+	pop rcx
+	push rcx
+	mov rdi, rcx
+	# (update SP to reflect values saved to the red area)
+	sub rsp, 16
+	call fact
+	add rsp, 16
+	# B=fact(n)
+	mov rbx, rax
+	pop rcx
+	mov al, 0
+	mov rdi, OFFSET FLAT:.factis
+	mov rsi, rcx
+	mov rdx, rbx
+	# (update SP to reflect values saved to the red area)
+	sub rsp, 16
+	call printf
+	add rsp, 16
+G1_cont:
+	mov rax, 0
+	ret
+error:
+	mov rdi, rdi
+	call puts
+	mov rdi, 1
+	call _exit

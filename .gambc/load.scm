@@ -95,10 +95,10 @@
   ;; (c/load "lib/warn-plus")
   ;; (c/load "lib/test-logic")
   ;; (c/load "lib/math-approximate")
-  ;; (c/load "lib/enum")
-  ;; (c/load "lib/easy")
-  ;; (c/load "lib/more-oo")
-  ;; (c/load "lib/oo-gambit")
+  (c/load "lib/enum")
+  (c/load "lib/easy")
+  (c/load "lib/more-oo")
+  (c/load "lib/oo-gambit")
   ;; (c/load "lib/realrandom")
   ;; (c/load "lib/code-map")
   ;; (c/load "lib/unixtime")
@@ -106,7 +106,6 @@
   ;; (c/load "lib/cj-url-encode") ;;needed for hex
   ;; (c/load "lib/hex")
   ;; (c/load "lib/hide")
-
-  (c/load "lib/easy")
   )
 
+(i/load "hackasm")

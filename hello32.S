@@ -1,0 +1,39 @@
+	.intel_syntax noprefix
+	.section .rodata
+.hello:
+	.string "Hello"
+.world:
+	.string "World!\n"
+.write_error:
+	.string "error on write"
+	.text
+	.globl main
+main:
+	# Output strings in various ways, using an invoke macro that
+	#  works on Linux both on x86 and x86-64
+	push OFFSET FLAT:.hello
+	call strlen
+	add esp, 4
+	push eax
+	push OFFSET FLAT:.hello
+	push 1
+	call write
+	add esp, 12
+	# Check for errors
+	cmp eax, 0
+	jae G1_cont
+	push OFFSET FLAT:.write_error
+	call perror
+	add esp, 4
+	mov eax, 1
+	ret
+G1_cont:
+	# Omit error checking now
+	push 32
+	call putchar
+	add esp, 4
+	push OFFSET FLAT:.world
+	call puts
+	add esp, 4
+	mov eax, 0
+	ret
