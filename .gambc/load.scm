@@ -108,4 +108,4 @@
   ;; (c/load "lib/hide")
   )
 
-(i/load "hackasm")
+(i/load "hasm")
