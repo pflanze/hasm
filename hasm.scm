@@ -673,7 +673,7 @@
 (def (assemble* path
 		#!key
 		(bits (asm-bits))
-		(to (string-append (strip-suffix from-path) ".S")))
+		(to (string-append (strip-suffix path) ".S")))
      (parameterize
       ((asm-bits bits))
       (assemble path
