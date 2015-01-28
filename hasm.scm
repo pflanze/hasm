@@ -687,6 +687,10 @@
 			 ,(string-append to* ".S")
 			 "-o" ,to*)))))
 
+(def (asrun path #!key (bits (asm-bits)))
+     (assemble* path bits: bits)
+     (xsystem (path-expand (strip-suffix path))))
+
 (def (assemble-suite bits)
      (def (path base)
 	  (string-append base (.string bits) ".S"))
