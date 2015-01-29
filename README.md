@@ -53,6 +53,14 @@ suppress undefined symbol warnings):
 
 ### Get libraries
 
+This works for both x86_64 and x86 code. If you want to use
+`assemble*` or `asrun` to compile to x86 binaries, you need to install
+32-bit support libraries; e.g. on Debian:
+
+    $ sudo apt-get install libc6-dev-i386 libc6-i386
+
+Also, need to get the files in the submodule:
+
     $ git submodule update
 
 ### Run it
