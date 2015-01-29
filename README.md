@@ -72,6 +72,7 @@ On first run, this will take some time to compile the dependencies in
 
     > (assemble "foo.scm") ;; create foo.S
     > (assemble* "foo.scm") ;; create foo.S and compile that to foo
+    > (asrun "foo.scm") ;; create foo.S, compile to foo, and run it
 
 To compile to 32|64 bits instead of host system bit size:
 
