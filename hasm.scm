@@ -704,5 +704,5 @@
 		to: (path "fact")
 		bits: bits))
 
-(assemble-suite 32)
-(assemble-suite 64)
+;; (assemble-suite 32)
+;; (assemble-suite 64)
