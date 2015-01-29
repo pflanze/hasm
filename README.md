@@ -76,7 +76,7 @@ On first run, this will take some time to compile the dependencies in
 
 To compile to 32|64 bits instead of host system bit size:
 
-    > (assemble* "foo.scm" bits: 32)
+    > (asrun "foo.scm" bits: 32) ;; or (assemble* "foo.scm" bits: 32) 
 
 ### Configure GDB
 
