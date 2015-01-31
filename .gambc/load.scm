@@ -109,3 +109,4 @@
   )
 
 (i/load "hasm")
+(i/load "examples/Make")

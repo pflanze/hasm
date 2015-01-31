@@ -695,15 +695,3 @@
      (assemble* path bits: bits)
      (xsystem (path-expand (strip-suffix path))))
 
-(def (assemble-suite bits)
-     (def (path base)
-	  (string-append base (.string bits) ".S"))
-     (assemble* "hello.scm"
-		to: (path "hello")
-		bits: bits)
-     (assemble* "fact.scm"
-		to: (path "fact")
-		bits: bits))
-
-;; (assemble-suite 32)
-;; (assemble-suite 64)
