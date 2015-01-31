@@ -462,6 +462,8 @@
 (def-asm-macro (D) (values CTX (if (asm-mode-64?) 'rdx 'edx)))
 (def-asm-macro (SI) (values CTX (if (asm-mode-64?) 'rsi 'esi)))
 (def-asm-macro (DI) (values CTX (if (asm-mode-64?) 'rdi 'edi)))
+(def-asm-macro (BP) (values CTX (if (asm-mode-64?) 'rbp 'ebp)))
+(def-asm-macro (SP) (values CTX (if (asm-mode-64?) 'rsp 'esp)))
 
 (def-asm-macro (words.bytes n)
   (values
