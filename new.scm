@@ -4,5 +4,5 @@
 (.text)
 
 main:
-(mov (A) 1)
+(mov (A) 0)
 (ret)

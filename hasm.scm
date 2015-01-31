@@ -453,10 +453,7 @@
 	    (lambda (reg)
 	      (symbol-append (if (asm-mode-64?) 'r 'e) reg)))))
 ;; ah and shorter:
-(def-asm-macro (A)
-  (values CTX
-	  (if (asm-mode-64?) 'rax 'eax)))
-
+(def-asm-macro (A) (values CTX (if (asm-mode-64?) 'rax 'eax)))
 (def-asm-macro (B) (values CTX (if (asm-mode-64?) 'rbx 'ebx)))
 (def-asm-macro (C) (values CTX (if (asm-mode-64?) 'rcx 'ecx)))
 (def-asm-macro (D) (values CTX (if (asm-mode-64?) 'rdx 'edx)))
